@@ -11,7 +11,6 @@ This container contains the [Chocolatey](https://chocolatey.org/) package manage
 * ``2004``, based on Windows Server Core 2004
 * ``1909``, based on Windows Server Core 1909
 * ``ltsc2019``, based on Windows Server Core ltsc2019
-* ``ltsc2016``, based on Windows Server Core ltsc2016
 
 ### Licensing
 * This container image contains the **Chocolatey Open Source edition**, licensed under the **[Apache License](https://github.com/chocolatey/choco/blob/master/LICENSE)**
