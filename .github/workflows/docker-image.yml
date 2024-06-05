@@ -28,12 +28,14 @@ jobs:
         username: ${{ github.repository_owner }}
         password: ${{ secrets.GITHUB_TOKEN }}
     - name: Build
-      run:  |
-        $TAGS += " -t ${{ secrets.DOCKERHUB_USERNAME }}/chocolatey:ltsc${{ matrix.WIN_VER }}"
-        $TAGS += " -t ghcr.io/${{ github.repository_owner }}/chocolatey:ltsc${{ matrix.WIN_VER }}"
-        if ( ${{ strategy.job-index }} -eq 0 ) { $TAGS += " -t ${{ secrets.DOCKERHUB_USERNAME }}/chocolatey" }
-        if ( ${{ strategy.job-index }} -eq 0 ) { $TAGS += " -t ghcr.io/${{ github.repository_owner }}/chocolatey" }
-        docker build ${TAGS} --build-arg WIN_VER=ltsc${{ matrix.WIN_VER }} .
+      run: >
+        docker build
+        --build-arg WIN_VER=ltsc${{ matrix.WIN_VER }}
+        -t ${{ secrets.DOCKERHUB_USERNAME }}/chocolatey:ltsc${{ matrix.WIN_VER }}
+        -t ghcr.io/${{ github.repository_owner }}/chocolatey:ltsc${{ matrix.WIN_VER }}
+        if ( ${{ strategy.job-index }} -eq 0 ) { " -t ${{ secrets.DOCKERHUB_USERNAME }}/chocolatey" }
+        if ( ${{ strategy.job-index }} -eq 0 ) { " -t ghcr.io/${{ github.repository_owner }}/chocolatey" }
+        .
     - name: push
       run: |
         docker push ${{ secrets.DOCKERHUB_USERNAME }}/chocolatey --all-tags
