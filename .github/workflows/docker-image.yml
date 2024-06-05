@@ -1,32 +1,38 @@
 name: Docker Image CI
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-  workflow_dispatch:
   schedule: 
-   - cron: "0 0 * * 0"
+   - cron: '0 0 * */3 0'
+  workflow_dispatch:
 
 jobs:
-  build:
+  ltsc2022:
     strategy:
       matrix:
         WIN_VER: ["2022", "2019"]
     runs-on: windows-${{ matrix.WIN_VER }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Build
-        run: |
-          $TAGS = "-t ${{ secrets.DOCKERHUB_USERNAME }}/chocolatey:ltsc${{ matrix.win_ver }}"
-          if ( ${{ strategy.job-index }} -eq 0 ) { $TAGS += " -t ${{ secrets.DOCKERHUB_USERNAME }}/chocolatey" }
-          cmd /c "docker build $TAGS --build-arg WIN_VER=ltsc${{ matrix.WIN_VER }} ."
-      - name: Push
-        run: docker push amitie10g/chocolatey --all-tags
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - name: Login to GHCR
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{ github.repository_owner }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Build
+      run:  |
+        $TAGS += "-t ${{ secrets.DOCKERHUB_USERNAME }}/chocolatey:ltsc${{ matrix.WIN_VER }} -t ghcr.io/${{ github.repository_owner }}/chocolatey:ltsc${{ matrix.WIN_VER }}"
+        if ( ${{ strategy.job-index }} -eq 0 ) { $TAGS += " -t ${{ secrets.DOCKERHUB_USERNAME }}/chocolatey -t ghcr.io/${{ github.repository_owner }}/chocolatey" }
+        docker build $TAGS --build-arg WIN_VER=ltsc${{ matrix.WIN_VER }} .
+    - name: push
+      run: |
+        docker push ${{ secrets.DOCKERHUB_USERNAME }}/chocolatey --all-tags
+        docker push ghcr.io/${{ github.repository_owner }}/chocolatey --all-tags
