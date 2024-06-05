@@ -33,8 +33,8 @@ jobs:
         --build-arg WIN_VER=ltsc${{ matrix.WIN_VER }}
         -t ${{ secrets.DOCKERHUB_USERNAME }}/chocolatey:ltsc${{ matrix.WIN_VER }}
         -t ghcr.io/${{ github.repository_owner }}/chocolatey:ltsc${{ matrix.WIN_VER }}
-        if ( ${{ strategy.job-index }} -eq 0 ) { " -t ${{ secrets.DOCKERHUB_USERNAME }}/chocolatey" }
-        if ( ${{ strategy.job-index }} -eq 0 ) { " -t ghcr.io/${{ github.repository_owner }}/chocolatey" }
+        $(if ( ${{ strategy.job-index }} -eq 0 ) { " -t ${{ secrets.DOCKERHUB_USERNAME }}/chocolatey" })
+        $(if ( ${{ strategy.job-index }} -eq 0 ) { " -t ghcr.io/${{ github.repository_owner }}/chocolatey" })
         .
     - name: push
       run: |
