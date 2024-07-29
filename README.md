@@ -17,4 +17,4 @@ This example will install [Vistal Studio 2022 Build Tools](https://community.cho
 ### Licensing
 * This container image contains the **Chocolatey Open Source edition**, licensed under the **[Apache License](https://github.com/chocolatey/choco/blob/master/LICENSE)**
 * The **Windows**-based container image usages are subjected to the **[Microsoft EULA](https://docs.microsoft.com/en-us/virtualization/windowscontainers/images-eula)**
-* The Dockerfile itself is released into the Public domain (the Unlicense)
+* The contents of this repository are released into the Public domain (the Unlicense)
