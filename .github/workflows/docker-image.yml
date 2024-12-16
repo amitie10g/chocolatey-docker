@@ -8,9 +8,21 @@ on:
 jobs:
   build:
     strategy:
+      fail-fast: false
       matrix:
-        WIN_VER: ["2022", "2019"]
-    runs-on: windows-${{ matrix.WIN_VER }}
+        WIN_VER:
+          - ltsc2025
+          - ltsc2022
+          - ltsc2019
+          - 20H2
+          - 2009
+          - 2004
+          - 1909
+          - 1903
+          - 1809
+          - 1803
+          - 1709
+    runs-on: windows-2022
     steps:
     - name: Checkout
       uses: actions/checkout@v4
@@ -29,15 +41,15 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
     - name: Build
       run: >
-        docker build --build-arg WIN_VER=ltsc${{ matrix.WIN_VER }}
-        -t ${{ secrets.DOCKERHUB_USERNAME }}/chocolatey:ltsc${{ matrix.WIN_VER }}
-        -t ghcr.io/${{ github.repository_owner }}/chocolatey:ltsc${{ matrix.WIN_VER }}
+        docker build --build-arg WIN_VER=${{ matrix.WIN_VER }}
+        -t ${{ secrets.DOCKERHUB_USERNAME }}/chocolatey:${{ matrix.WIN_VER }}
+        -t ghcr.io/${{ github.repository_owner }}/chocolatey:${{ matrix.WIN_VER }}
         .
     - name: Tag latest
       if: ${{ strategy.job-index == 0 }}
       run: |
-        docker tag ${{ secrets.DOCKERHUB_USERNAME }}/chocolatey:ltsc${{ matrix.WIN_VER }} ${{ secrets.DOCKERHUB_USERNAME }}/chocolatey
-        docker tag ghcr.io/${{ github.repository_owner }}/chocolatey:ltsc${{ matrix.WIN_VER }} ghcr.io/${{ github.repository_owner }}/chocolatey
+        docker tag ${{ secrets.DOCKERHUB_USERNAME }}/chocolatey:${{ matrix.WIN_VER }} ${{ secrets.DOCKERHUB_USERNAME }}/chocolatey
+        docker tag ghcr.io/${{ github.repository_owner }}/chocolatey:${{ matrix.WIN_VER }} ghcr.io/${{ github.repository_owner }}/chocolatey
     - name: push
       run: |
         docker push ${{ secrets.DOCKERHUB_USERNAME }}/chocolatey --all-tags
