@@ -11,10 +11,11 @@ jobs:
       fail-fast: false
       matrix:
         WIN_VER:
+        - ltsc2025
         - ltsc2022
         - ltsc2019
         - ltsc2016
-    runs-on: windows-2022
+    runs-on: windows-2025
     steps:
     - name: Checkout
       uses: actions/checkout@v4
