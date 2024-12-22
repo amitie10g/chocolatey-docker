@@ -3,7 +3,7 @@
 <img src="https://github.com/Amitie10g/chocolatey-docker/assets/2096562/de3b0df5-2d3d-4275-a85d-dc0cc442c5e8" alt="Chocolatey logo">
 </p>
 
-This container contains the [Chocolatey](https://chocolatey.org/) package manager, intended to be used on images where packages from Chocolatey repo are needed. This uses the [.NET Framework Runtime](https://hub.docker.com/_/microsoft-dotnet-framework-runtime/) 4.8 base image.
+This container contains the [Chocolatey](https://chocolatey.org/) package manager, intended to be used on images where packages from Chocolatey repo are needed. This uses the [.NET Framework Runtime](https://hub.docker.com/_/microsoft-dotnet-framework-runtime/) 4.8 base image, using ltsc2025 (not available yet), ltsc2022 (latest), ltsc2019 and ltsc2016
 
 ### Usage
 This example will install [Vistal Studio 2022 Build Tools](https://community.chocolatey.org/packages/visualstudio2022buildtools)
