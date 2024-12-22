@@ -11,8 +11,8 @@ jobs:
       fail-fast: false
       matrix:
         WIN_VER:
-        - ltsc2025
         - ltsc2022
+        - ltsc2025
         - ltsc2019
         - ltsc2016
     runs-on: windows-2025
@@ -40,7 +40,7 @@ jobs:
         --isolation=hyperv
         .
     - name: Tag latest
-      if: ${{ strategy.job-index == 0 }}
+      if: ${{ matrix.WIN_VER == matrix.WIN_VER[0] }}
       run: |
         docker tag ${{ secrets.DOCKERHUB_USERNAME }}/chocolatey:${{ matrix.WIN_VER }} ${{ secrets.DOCKERHUB_USERNAME }}/chocolatey
         docker tag ghcr.io/${{ github.repository_owner }}/chocolatey:${{ matrix.WIN_VER }} ghcr.io/${{ github.repository_owner }}/chocolatey
