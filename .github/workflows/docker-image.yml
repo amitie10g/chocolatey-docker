@@ -12,11 +12,35 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        WIN_VER:
-        - ltsc2025
-        - ltsc2022
-        - ltsc2019
-        - ltsc2016
+        include:
+        - BASE_IMAGE: dotnet/nightly/runtime
+          DOTNET_VERSION: 9.0
+          WIN_VER: ltsc2025
+        - BASE_IMAGE: dotnet/runtime
+          DOTNET_VERSION: 9.0
+          WIN_VER: ltsc2022
+        - BASE_IMAGE: dotnet/runtime
+          DOTNET_VERSION: 9.0
+          WIN_VER: ltsc2019
+        - BASE_IMAGE: dotnet/framework/runtime
+          DOTNET_VERSION: 4.8
+          WIN_VER: 20H2
+        - BASE_IMAGE: dotnet/framework/runtime
+          DOTNET_VERSION: 4.8
+          WIN_VER: 2009
+        - BASE_IMAGE: dotnet/framework/runtime
+          DOTNET_VERSION: 4.8
+          WIN_VER: 2004
+        - BASE_IMAGE: dotnet/framework/runtime
+          DOTNET_VERSION: 4.8
+          WIN_VER: 1909
+        - BASE_IMAGE: dotnet/framework/runtime
+          DOTNET_VERSION: 4.8
+          WIN_VER: 1903
+        - BASE_IMAGE: dotnet/framework/runtime
+          DOTNET_VERSION: 4.8
+          WIN_VER: 1803
+          
     runs-on: windows-2025
     steps:
     - name: Checkout
@@ -36,7 +60,10 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
     - name: Build
       run: >
-        docker build --build-arg WIN_VER=${{ matrix.WIN_VER }}
+        docker build
+        --build-arg BASE_IMAGE=${{ matrix.BASE_IMAGE }}
+        --build-arg DOTNET_VERSION=${{ matrix.DOTNET_VERSION }}
+        --build-arg WIN_VER=${{ matrix.WIN_VER }}
         --tag=${{ secrets.DOCKERHUB_USERNAME }}/chocolatey:${{ matrix.WIN_VER }}
         --tag=ghcr.io/${{ github.repository_owner }}/chocolatey:${{ matrix.WIN_VER }}
         --isolation=hyperv
