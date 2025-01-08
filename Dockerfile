@@ -1,6 +1,8 @@
 # escape=`
+ARG BASE_IMAGE=dotnet/runtime
+ARG DOTNET_VERSION=9.0
 ARG WIN_VER=ltsc2022
-FROM mcr.microsoft.com/dotnet/framework/runtime:4.8-windowsservercore-${WIN_VER}
+FROM mcr.microsoft.com/${BASE_IMAGE}:${DOTNET_VERSION}-windowsservercore-${WIN_VER}
 
 SHELL ["powershell", "-Command"]
 RUN [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12; `
