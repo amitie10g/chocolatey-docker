@@ -20,8 +20,8 @@ jobs:
           BASE_IMAGE: dotnet/runtime
           DOTNET_VERSION: "9.0"
         - WIN_VER: ltsc2019
-          BASE_IMAGE: dotnet/runtime
-          DOTNET_VERSION: "9.0"
+          BASE_IMAGE: dotnet/framework/runtime
+          DOTNET_VERSION: "4.8"
         - WIN_VER: 20H2
           BASE_IMAGE: dotnet/framework/runtime
           DOTNET_VERSION: "4.8"
@@ -31,12 +31,12 @@ jobs:
         - WIN_VER: 2004
           BASE_IMAGE: dotnet/framework/runtime
           DOTNET_VERSION: "4.8"
-        - WIN_VER: 1909
-          BASE_IMAGE: dotnet/framework/runtime
-          DOTNET_VERSION: "4.8"
-        - WIN_VER: 1903
-          BASE_IMAGE: dotnet/framework/runtime
-          DOTNET_VERSION: "4.8"
+#        - WIN_VER: 1909
+#          BASE_IMAGE: dotnet/framework/runtime
+#          DOTNET_VERSION: "4.8"
+#        - WIN_VER: 1903
+#          BASE_IMAGE: dotnet/framework/runtime
+#          DOTNET_VERSION: "4.8"
         - WIN_VER: 1803
           BASE_IMAGE: dotnet/framework/runtime
           DOTNET_VERSION: "4.8"
