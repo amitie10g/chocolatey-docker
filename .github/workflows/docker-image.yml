@@ -28,9 +28,6 @@ jobs:
         - WIN_VER: 20H2
           BASE_IMAGE: dotnet/framework/runtime
           DOTNET_VERSION: "4.8"
-        - WIN_VER: 2009
-          BASE_IMAGE: dotnet/framework/runtime
-          DOTNET_VERSION: "4.8"
         - WIN_VER: 2004
           BASE_IMAGE: dotnet/framework/runtime
           DOTNET_VERSION: "4.8"
@@ -81,6 +78,25 @@ jobs:
         docker push ${{ secrets.DOCKERHUB_USERNAME }}/chocolatey --all-tags
         docker push ghcr.io/${{ github.repository_owner }}/chocolatey --all-tags
 
+  tag-same-images:
+    needs: build
+    runs-on: windows-2025
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - SOURCE: 20H2
+        - TARGET: 2009
+    steps:
+    - name: Tag
+      uses: int128/docker-manifest-create-action@v2
+      with:
+        tags: |
+          ${{ secrets.DOCKERHUB_USERNAME }}/chocolatey:${{ matrix.TARGET }}
+          ghcr.io/${{ github.repository_owner }}/chocolatey:${{ matrix.TARGET }}
+        sources: |
+          ghcr.io/${{ github.repository_owner }}/chocolatey:${{ matrix.SOURCE }}
+
   trigger-next-workflow:
     runs-on: ubuntu-latest
     needs: build
@@ -91,3 +107,4 @@ jobs:
           workflow: docker-image.yml
           repo: ${{ github.repository_owner }}/visualstudio-build-tools-docker
           token: ${{ secrets.VISUALSTUDIO_BUILD_TOOLS_DOCKER }}
+-
