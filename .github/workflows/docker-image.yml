@@ -22,6 +22,9 @@ jobs:
         - WIN_VER: ltsc2019
           BASE_IMAGE: dotnet/framework/runtime
           DOTNET_VERSION: "4.8"
+        - WIN_VER: ltsc2016
+          BASE_IMAGE: dotnet/framework/runtime
+          DOTNET_VERSION: "4.8"
         - WIN_VER: 20H2
           BASE_IMAGE: dotnet/framework/runtime
           DOTNET_VERSION: "4.8"
