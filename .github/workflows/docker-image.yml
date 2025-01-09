@@ -107,4 +107,3 @@ jobs:
           workflow: docker-image.yml
           repo: ${{ github.repository_owner }}/visualstudio-build-tools-docker
           token: ${{ secrets.VISUALSTUDIO_BUILD_TOOLS_DOCKER }}
--
