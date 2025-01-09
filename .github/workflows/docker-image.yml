@@ -86,7 +86,7 @@ jobs:
       matrix:
         include:
         - SOURCE: 20H2
-        - TARGET: 2009
+          TARGET: 2009
     steps:
     - name: Tag
       uses: int128/docker-manifest-create-action@v2
