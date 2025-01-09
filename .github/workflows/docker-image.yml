@@ -88,18 +88,21 @@ jobs:
         - SOURCE: 20H2
           TARGET: 2009
     steps:
+    - name: Pull
+      run: |
+        docker pull ghcr.io/${{ github.repository_owner }}/chocolatey:${{ matrix.SOURCE }}
     - name: Tag
-      uses: int128/docker-manifest-create-action@v2
-      with:
-        tags: |
-          ${{ secrets.DOCKERHUB_USERNAME }}/chocolatey:${{ matrix.TARGET }}
-          ghcr.io/${{ github.repository_owner }}/chocolatey:${{ matrix.TARGET }}
-        sources: |
-          ghcr.io/${{ github.repository_owner }}/chocolatey:${{ matrix.SOURCE }}
+      run: |
+        docker tag ghcr.io/${{ github.repository_owner }}/chocolatey:${{ matrix.SOURCE }} ${{ secrets.DOCKERHUB_USERNAME }}/chocolatey:${{ matrix.TARGET }}
+        docker tag ghcr.io/${{ github.repository_owner }}/chocolatey:${{ matrix.SOURCE }} ghcr.io/${{ github.repository_owner }}/chocolatey:${{ matrix.TARGET }}
+    - name: Push
+      run: |
+        docker push ${{ secrets.DOCKERHUB_USERNAME }}/chocolatey:${{ matrix.TARGET }}
+        docker push ghcr.io/${{ github.repository_owner }}/chocolatey:${{ matrix.TARGET }}
 
   trigger-next-workflow:
     runs-on: ubuntu-latest
-    needs: build
+    needs: tag-same-images
     steps:
       - name: Trigger next workflow (visualstudio-build-tools-docker)
         uses: benc-uk/workflow-dispatch@v1
