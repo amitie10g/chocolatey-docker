@@ -17,5 +17,9 @@ jobs:
               'Espacio Libre (GB)' = [math]::round($_.FreeSpace / 1GB, 2)
           }
         }
+    - name: Get drives
+      run: |
+        dir C:\
+        dir d:\
     - name: Get Docker home
       run: C:\ProgramData\docker\config
