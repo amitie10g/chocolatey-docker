@@ -18,4 +18,4 @@ jobs:
           }
         }
     - name: Get Docker home
-      run: docker info | Select-String "Docker Root Dir"
+      run: dir C:\ProgramData\docker
