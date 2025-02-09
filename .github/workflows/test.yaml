@@ -22,4 +22,4 @@ jobs:
         dir C:\
         dir d:\
     - name: Get Docker home
-      run: C:\ProgramData\docker\config
+      run: dir C:\ProgramData\docker\config
