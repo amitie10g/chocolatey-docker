@@ -10,10 +10,5 @@ jobs:
     - name: Write new Docker configuration
       run: |
         echo '{"hosts": ["npipe://"], "data-root": "D:\\docker"}' > C:\ProgramData\docker\config\daemon.json
-    - name: Stop Docker service
-      run: net stop docker
-    - name: Stop Docker service
-      run: net start docker
-    - name: List new configuration
-      run: docker info | Select-String "Docker Root Dir"
-        
+        net stop docker
+        net start docker
