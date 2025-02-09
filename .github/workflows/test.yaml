@@ -7,15 +7,13 @@ jobs:
   test:
     runs-on: windows-2025
     steps:
-    - name: list space
+    - name: Write new Docker configuration
       run: |
-        Get-WmiObject -Class Win32_LogicalDisk | Select-Object DeviceID, VolumeName, Size, FreeSpace | ForEach-Object {
-          [PSCustomObject]@{
-              Unidad       = $_.DeviceID
-              Volumen      = $_.VolumeName
-              'Espacio Total (GB)' = [math]::round($_.Size / 1GB, 2)
-              'Espacio Libre (GB)' = [math]::round($_.FreeSpace / 1GB, 2)
-          }
-        }
-    - name: Get Docker home
-      run: cat C:\ProgramData\docker\config\daemon.json
+        echo '{"hosts": ["npipe://"], "data-root": "D:\\docker"}' > C:\ProgramData\docker\config\daemon.json
+    - name: Stop Docker service
+      run: net stop docker
+    - name: Stop Docker service
+      run: net start docker
+    - name: List new configuration
+      run: docker info | Select-String "Docker Root Dir"
+        
