@@ -17,7 +17,5 @@ jobs:
               'Espacio Libre (GB)' = [math]::round($_.FreeSpace / 1GB, 2)
           }
         }
-    - name: List volume contents
-      run: |
-        dir C:\
-        dir D:\
+    - name: Get Docker home
+      run: docker info | Select-String "Docker Root Dir"
