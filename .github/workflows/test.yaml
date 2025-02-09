@@ -7,7 +7,7 @@ jobs:
   test:
     runs-on: windows-2025
     steps:
-    - name: Test
+    - name: list space
       run: |
         Get-WmiObject -Class Win32_LogicalDisk | Select-Object DeviceID, VolumeName, Size, FreeSpace | ForEach-Object {
           [PSCustomObject]@{
@@ -17,3 +17,7 @@ jobs:
               'Espacio Libre (GB)' = [math]::round($_.FreeSpace / 1GB, 2)
           }
         }
+    - name: List volume contents
+      run: |
+        dir C:\
+        dir D:\
