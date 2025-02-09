@@ -17,7 +17,5 @@ jobs:
               'Espacio Libre (GB)' = [math]::round($_.FreeSpace / 1GB, 2)
           }
         }
-    - name: Get warning
-      run: cat D:\DATALOSS_WARNING_README.txt
     - name: Get Docker home
-      run: cat C:\ProgramData\docker\config
+      run: cat C:\ProgramData\docker\config\daemon.json
