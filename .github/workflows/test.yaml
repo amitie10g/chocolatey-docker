@@ -8,11 +8,12 @@ jobs:
     runs-on: windows-2025
     steps:
     - name: Test
-      run: 
+      run: |
         Get-WmiObject -Class Win32_LogicalDisk | Select-Object DeviceID, VolumeName, Size, FreeSpace | ForEach-Object {
-        [PSCustomObject]@{
-            Drive      = $_.DeviceID
-            Volume     = $_.VolumeName
-            'Total space (GB)' = [math]::round($_.Size / 1GB, 2)
-            'Free space (GB)'  = [math]::round($_.FreeSpace / 1GB, 2)
+          [PSCustomObject]@{
+              Unidad       = $_.DeviceID
+              Volumen      = $_.VolumeName
+              'Espacio Total (GB)' = [math]::round($_.Size / 1GB, 2)
+              'Espacio Libre (GB)' = [math]::round($_.FreeSpace / 1GB, 2)
+          }
         }
